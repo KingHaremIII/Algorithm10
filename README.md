@@ -26,7 +26,7 @@
     initialize the bound and mid point. 
     */
     left = 0;
-    right = aray.length - 1;
+    right = array.length - 1;
     mid = (left + right) / 2;
     /*
     update the bound and mid point. 
@@ -41,7 +41,7 @@
         }
     }
     /*
-    juge whether satisfied or not found. 
+    judege whether satisfied or not found. 
     */
     if (target == array[mid]) {
         return mid;
