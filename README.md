@@ -22,40 +22,34 @@
 
 非递归：使用while语句，将左右边界不断更新。
 
-    /*
-    initialize the bound and mid point. 
-    */
-    left = 0;
-    right = array.length - 1;
-    mid = (left + right) / 2;
-    /*
-    update the bound and mid point. 
-    */
-    while((target!=array[mid])&&(right-left)>1) {
-        if (target < mid) {
-            right = mid;
-            mid = (left + right) / 2;
-        } else {
-            left = mid;
-            mid = (left + right) / 2;
-        }
-    }
-    /*
-    judege whether satisfied or not found. 
-    */
-    if (target == array[mid]) {
-        return mid;
-    } else {
-        if (target == array[left])
-            return left;
-        else if (target == array[right])
-            return right;
-        else
-            return -1;
-    }
-
-
-
+	/*
+	initialize the bound and mid point.
+	*/
+	int left = 0;
+	int right = array.length - 1;
+	int mid = (int) ((left + right) / 2);;
+	/*
+	update the bound and mid point.
+	*/
+	while((target!=array[mid])&&((right-left)>1)) {
+	    if (target < array[mid]) {
+	        right = mid;
+	    } else {
+	        left = mid;
+	    }
+	    mid = (int) ((left + right) / 2);
+	}
+	/*
+	judge whether satisfied or not found.
+	*/
+	if (target == array[mid]) {
+	    index = mid;
+	} else {
+	    if (target == array[left])
+	        index = left;
+	    else if (target == array[right])
+	        index = right;
+	}
 
 ## 分治算法 ##
 
