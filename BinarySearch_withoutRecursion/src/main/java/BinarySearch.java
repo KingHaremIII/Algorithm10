@@ -1,6 +1,6 @@
 /**
  * @Classname BinarySearch
- * @Description TODO
+ * @Description Binary search class
  * @Date 2020/2/4 下午1:16
  * @Created by kamisama
  */
