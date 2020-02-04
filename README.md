@@ -20,6 +20,43 @@
 ## 二分查找算法（非递归） ##
 二分查找法只适用于有序数列中查找。
 
+非递归：使用while语句，将左右边界不断更新。
+
+    /*
+    initialize the bound and mid point. 
+    */
+    left = 0;
+    right = aray.length - 1;
+    mid = (left + right) / 2;
+    /*
+    update the bound and mid point. 
+    */
+    while((target!=array[mid])&&(right-left)>1) {
+        if (target < mid) {
+            right = mid;
+            mid = (left + right) / 2;
+        } else {
+            left = mid;
+            mid = (left + right) / 2;
+        }
+    }
+    /*
+    juge whether satisfied or not found. 
+    */
+    if (target == array[mid]) {
+        return mid;
+    } else {
+        if (target == array[left])
+            return left;
+        else if (target == array[right])
+            return right;
+        else
+            return -1;
+    }
+
+
+
+
 ## 分治算法 ##
 
 
