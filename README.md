@@ -79,6 +79,20 @@
 1) 将最下面以上的盘看作一个盘
 2) 将合并的盘和最下面的盘按照2. 处理
 
+> Core Code
+
+	public static void Move(int num, char a, char b, char c) {
+		if (num == 1) {
+		    System.out.println("第1个盘： "+a+"==>"+c);
+		} else {
+		    // move all plans exclude the largest one in a to b, using c.
+		    Move(num-1, a, c, b);
+		    System.out.println("第"+num+"个盘： "+a+"==>"+c);
+		    // move all plans exclude the largest one in b to c, using a.
+		    Move(num-1, b, a, c);
+		}
+    }
+
 ## 动态规划问题 ##
 ### 核心思想 ###
 将大问题划分为小问题进行解决，进而一步步获取最优解的处理算法。
@@ -93,7 +107,7 @@
 
 
 ### Core Code ###
-> 填表寻找最优解
+> 变量定义
 
 	// create a 2D array with expanded size due to the 0 column and row. 
 	int[][] dp = new int[listWeight.size()+1][bagv+1];
@@ -101,49 +115,43 @@
 	int maxtmp = 0;
 	int x;
 	int y;
+	// create a array to record whether certain thing is put into the bag or not.
+    	int[] item;
+
+> 填表寻找最优解
 
 	public void findMax() {
-		for (int i = 1; i <= listWeight.size(); i++) {
-			for (int j = 1; j <= bagV; j++) {
-				// the current thing cannot be put into the bag. 
-				if (j < w[i])
-					dp[i][j] = dp[i - 1][j];
-				// check whether it is valuable to be put into the bag. 
-				else
-					dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i]] + v[i]);
+		for (int i = 1; i < listWeight.length; i++) {
+		    for (int j = 1; j <= bagV; j++) {
+		        // the current thing cannot be put into the bag.
+		        if (j < listWeight[i])
+		            dp[i][j] = dp[i - 1][j];
+		        // check whether it is valuable to be put into the bag.
+		        else
+		            dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - listWeight[i]] + listValue[i]);
 
-				// check out whether it is a better one. 
-				if (maxtmp < dp[i][j]) {
-					maxtmp = dp[i][j];
-					x = i;
-					y = j;
-				}
-			}
+		        // check out whether it is a better one.
+		        if (maxtmp < dp[i][j]) {
+		            maxtmp = dp[i][j];
+		            x = i;
+		            y = j;
+		        }
+		    }
 		}
-	}
+    }
 	
 > 回溯求解最优组合
 
-	// create a array to record whether certain thing is put into the bag or not. 
-	int[] item = new int[listWeight.size()];
+	dp[i][j] == 1) dp[i - 1][j]    ---->   item[i] is not accounted.
+	         == 2) dp[i-1][j-listWeight[i]]+listValue[i]    ---->    item[i] is accounted.
+	1）
+	item[i] = 0;
+	findWhat(i - 1, j);
+	2）
+	item[i] = 1;
+	findWhat(i - 1, j - listWeight[i]);
 
-
-	public void findWhat(int i, int j) {
-		if (i >= 0) {
-			if (dp[i][j] == dp[i - 1][j]) {
-				item[i] = 0;
-				findWhat(i - 1, j);
-			}
-			else if (j - w[i] >= 0 && dp[i][j] == dp[i - 1][j - w[i]] + v[i]) {
-				item[i] = 1;
-				findWhat(i - 1, j - w[i]);
-			}
-			else {
-				System.out.println("There is a error in dp array. (getDp() for check)");
-			}
-		}
-	}
-
+*注意判断 j-listWeight[i] 是否大于0*
 
 
 
