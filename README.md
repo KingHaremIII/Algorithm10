@@ -52,9 +52,100 @@
 	}
 
 ## 分治算法 ##
+分治算法时很多高效算法的基础，如：
 
 
-## 动态规划算法 ##
+- 二分搜索
+- 大整数乘法
+- 棋盘覆盖
+- 合并排序
+- 快速拍寻
+- 线性时间选择
+- 最接近点对问题
+- 循环赛日程表
+- 汉诺塔
+
+### 步骤 ###
+1. 分解：将原问题分解为若干个规模较小、相互独立，与原问题形式相同的子问题；
+2. 解决：若子问题规模较小而容易被解决则直接解，否则递归地解各个子问题；
+3. 合并：将各个子问题的解合并为原问题的解。
+
+### 实例：汉诺塔 ###
+思路分析
+
+1. 只有一个盘：A->C
+2. 有两个盘：A->B，A->C，B->C
+3. 有多个盘：
+1) 将最下面以上的盘看作一个盘
+2) 将合并的盘和最下面的盘按照2. 处理
+
+## 动态规划问题 ##
+### 核心思想 ###
+将大问题划分为小问题进行解决，进而一步步获取最优解的处理算法。
+> **与分治区别**：分解出的子问题往往不是相互独立的（即下一个子阶段的求解是建立在上一个阶段的解的基础上，进而进一步求解）。
+
+### 典型问题：背包问题 ###
+#### 分类： ####
+1. 01背包问题：物品不可重复。
+2. 完全背包问题：可以装任意数量同样物品。
+
+#### 填表法 ####
+
+
+### Core Code ###
+> 填表寻找最优解
+
+	// create a 2D array with expanded size due to the 0 column and row. 
+	int[][] dp = new int[listWeight.size()+1][bagv+1];
+	// set maxtmp, x and y to record the current max and its cooridnation. 
+	int maxtmp = 0;
+	int x;
+	int y;
+
+	public void findMax() {
+		for (int i = 1; i <= listWeight.size(); i++) {
+			for (int j = 1; j <= bagV; j++) {
+				// the current thing cannot be put into the bag. 
+				if (j < w[i])
+					dp[i][j] = dp[i - 1][j];
+				// check whether it is valuable to be put into the bag. 
+				else
+					dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i]] + v[i]);
+
+				// check out whether it is a better one. 
+				if (maxtmp < dp[i][j]) {
+					maxtmp = dp[i][j];
+					x = i;
+					y = j;
+				}
+			}
+		}
+	}
+	
+> 回溯求解最优组合
+
+	// create a array to record whether certain thing is put into the bag or not. 
+	int[] item = new int[listWeight.size()];
+
+
+	public void findWhat(int i, int j) {
+		if (i >= 0) {
+			if (dp[i][j] == dp[i - 1][j]) {
+				item[i] = 0;
+				findWhat(i - 1, j);
+			}
+			else if (j - w[i] >= 0 && dp[i][j] == dp[i - 1][j - w[i]] + v[i]) {
+				item[i] = 1;
+				findWhat(i - 1, j - w[i]);
+			}
+			else {
+				System.out.println("There is a error in dp array. (getDp() for check)");
+			}
+		}
+	}
+
+
+
 
 
 ## KMP算法 ##
