@@ -12,9 +12,9 @@ import java.util.List;
 public class Tmp {
     @Test
     public void Test() {
-        List<String> a = new ArrayList<>();
-        a.add("fuck");
-        a.add("you");
-        System.out.println(a.subList(0, 2));
+        List<String> tmp = new ArrayList<>();
+        tmp.add("fuck");
+        tmp.remove("k");
+        System.out.println(tmp.size());
     }
 }

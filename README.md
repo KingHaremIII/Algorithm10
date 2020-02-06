@@ -174,6 +174,24 @@
 
 移动位数 = 已匹配的字符数 - 对应的部分匹配值。
 
+> Core Code
+
+	// the current position matched.
+	if (origin.get(i).equals(target.get(j)))
+	...
+    // not matched
+	else {
+	// poll i return to the start (not string start)
+	i = i -j;
+		// need KMP
+		 if (j>0) {
+			 i = i + j - partMatchTable[j - 1];
+		 } else {    // normal move
+			 i = i + 1;
+		 }
+		 j = 0;
+	 }
+
 ## 贪心算法 ##
 每一步都采取最优，从而希望结果最优。
 
