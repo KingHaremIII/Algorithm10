@@ -12,8 +12,9 @@ import java.util.List;
 public class Tmp {
     @Test
     public void Test() {
-        List<Integer> A = new ArrayList<>();
-        A.add(3);
-        System.out.println(A);
+        List<String> a = new ArrayList<>();
+        a.add("fuck");
+        a.add("you");
+        System.out.println(a.subList(0, 2));
     }
 }
