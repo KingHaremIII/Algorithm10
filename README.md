@@ -211,15 +211,15 @@
 2. 将电台加入列表，更新未覆盖地区。
 3. 重复直到所有地区覆盖。
 
-*special prerequist HEAD*
-
 ----------
+*special prerequist HEAD*
 
 ## *最小生成树（Minimun Cost Spanning Tree, MST）* ##
 给定一个带权的无向连通图，如何选取一颗生成树，使得树上所有**边上权**的总和为最小，这叫最小生成树。
 
-----------
 *special prerequist END*
+
+----------
 
 
 ## 普利姆算法 ##
@@ -238,6 +238,31 @@
 2. 从某一顶点开始，每次加入U和V之间的最小边，并且将访问到的新节点从V移到U，记录新使用的路线到D；
 3. 重复知道访问到所有节点。
 
+### Core Code ###
+> how to extend the MST
+
+	// search for routes of each connected vertexes
+	for (int i=0;i<visited.length;i++) {
+		// check out whether it is a connected vertex or not. 
+        if (visited[i]==1) {
+			// record every new route of vertex<i>. 
+            for (int j=0;j<visited.length;j++) {
+                if (visited[j]==0) {
+                    tmp[i][j] = AdjacencyMatrix[i][j];
+                }
+            }
+        }
+    }
+	
+	// int[][] tmp is a matrix recording all candidates of new routes. 
+
+	// VertexOfMin(int[][]) search for the minimun value and return the coordination. 
+    int[] xy = VertexOfMin(tmp);
+	// set the minimun route to MST. 
+    mst[xy[0]][xy[1]] = AdjacencyMatrix[xy[0]][xy[1]];
+	// mark the newly connected vertex. 
+    visited[xy[1]] = 1;
+
 ## 克鲁斯卡尔算法 ##
 > 适合边稠密度低的连通网，时间复杂度`O(nlogn)`
 
@@ -247,17 +272,83 @@
 首先构造一个只含n个顶点的森林，然后依权值从小到大从连通网选择边到森林里来，并使森林不产生回路，直到森林成为树。
 > 当新加入的边的两个顶点都指向同一个终点时构成回路。
 
-### 应用场景：公交问题 ###
+### Core Code ###
+> implements <Interface> Comparable for <class> Edge
 
+	public class Edge implements Comparable<Edge> {
+		...
+
+		@Override
+		public int compareTo(Edge edge) {
+        	return this.weight - edge.weight;
+    	}
+	}
+
+> search new route to the forest until the forest becomes into a tree
+
+	// MSTCompleted() is a member method of <class> Forest, which is used to judge if the forest becomes into a tree. 
+	while(!forest.MSTCompleted()) {
+        int i=0;
+		// search for useful shoertest route. 
+		// the edgeList, list of edges, is sorted. 
+        for (;i<edgeList.size();i++) {
+			// judge whether recurrent exists or not. 
+            if (judge(edgeList.get(i)))
+                break;
+        }
+        forest.addEdge(edgeList.get(i));
+        edgeList.remove(i);
+        Collections.sort(edgeList);
+    }
+
+----------
+*special prerequist HEAD*
+
+## *最短路径问题* ##
+给定带权有向图G和源点v，求v到G中其他顶点的最短路径。
+
+*special prerequist END*
+
+----------
 
 ## 迪杰斯特拉算法 ##
+迪杰斯特拉算法是典型的最短路径算法，用于从一个结点到其他结点的最短路径。**主要特点**是，以起始点为中心向外层扩散（广度优先），直到扩展到终点为止。
 
+### 步骤 ###
+1. 设置源点v，可见顶点集合V{v1, v2, ..., vn}，源点到V中各点距离Dis{d1, d2, ..., dn}；
+2. 选择Dis中最小加入路径，再从Dis移除，同时移除对应vi；
+3. 对vi广度优先，扩展可见点集合V=V + {dk, dl, dm, ...}，更新Dis：`dj' = min(dj, di+dij), when vi also connects to vj and the previous node of vj should be updated to vi`。
+4. 重复2-3直到找不到可见点。
+
+### Core Code ###
 
 ## 弗洛伊德算法 ##
+弗洛伊德算法求解**每一个**结点到其他结点的最短路径。
 
+### 步骤 ###
+对邻接矩阵进行更新：
+
+    d[i][j] = min(d[i][j], d[i][k]+d[k][j])
+
+### Core Code ###
+	for (int i=0;i<nodeNum;i++)
+		for (int j=0;j<nodeNum;j++)
+			for (int k=0;k<nodeNum;k++) {
+				if ((k != j) && (k != i)) {
+					d[i][j] = Math.min(d[i][j], d[i][k]+d[k][j]);
+				}
+			}
 
 ## 马踏棋盘算法 ##
+DFS的一个应用
 
+### 步骤 ###
+1. 对当前位置计算所有可走点，如果走不通就回溯；
+2. 根据行走策略走一个可走点；
+3. 重复1-2直到走完所有点。
+
+### 优化 ###
+贪心算法：对所有可走点下一步可走点数目进行非递减排序，走下一步可走点数目最少的。 *====>* `减少回溯`
 
 
 
