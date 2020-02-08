@@ -331,13 +331,12 @@
     d[i][j] = min(d[i][j], d[i][k]+d[k][j])
 
 ### Core Code ###
-	for (int i=0;i<nodeNum;i++)
-		for (int j=0;j<nodeNum;j++)
-			for (int k=0;k<nodeNum;k++) {
-				if ((k != j) && (k != i)) {
-					d[i][j] = Math.min(d[i][j], d[i][k]+d[k][j]);
-				}
-			}
+    for (int k=0;k<nodeNum;k++)
+        for (int i = 0;i < nodeNum;i++)
+			for (int j = 0; j < nodeNum; j++)
+				if (AdjacencyMatrix[i][j] > AdjacencyMatrix[i][k] + AdjacencyMatrix[k][j])
+					AdjacencyMatrix[i][j] = AdjacencyMatrix[i][k] + AdjacencyMatrix[k][j];
+
 
 ## 马踏棋盘算法 ##
 DFS的一个应用
