@@ -321,6 +321,30 @@
 4. 重复2-3直到找不到可见点。
 
 ### Core Code ###
+	// cnt is the nubmer of searched node. 
+	while (cnt < nodeNum) {
+		int i = search(currentPoint, adjacencyMatrix);
+
+	    // newly connected node.
+	    if (previousVector[i] == -1) {
+		// increment the number of nodes in route.
+		cnt++;
+		previousVector[i] = currentPoint;
+	    }
+	    else if (previousVector[i] != -2) {
+		if (adjacencyMatrix[previousVector[i]][i] > adjacencyMatrix[currentPoint][i]+adjacencyMatrix[previousVector[i]][currentPoint]) {
+		    adjacencyMatrix[previousVector[i]][i] = adjacencyMatrix[currentPoint][i]+adjacencyMatrix[previousVector[i]][currentPoint];
+		    previousVector[i] = currentPoint;
+		}
+	    }
+	    else {
+		if (adjacencyMatrix[startPoint][i] > adjacencyMatrix[currentPoint][i]+adjacencyMatrix[startPoint][currentPoint]) {
+		    adjacencyMatrix[startPoint][i] = adjacencyMatrix[currentPoint][i]+adjacencyMatrix[startPoint][currentPoint];
+		    previousVector[i] = currentPoint;
+		}
+	    }
+	    currentPoint = i;
+	}
 
 ## 弗洛伊德算法 ##
 弗洛伊德算法求解**每一个**结点到其他结点的最短路径。
