@@ -2,6 +2,12 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * @Classname KnightTourTest
+ * @Description Knight Tour Test
+ * @Date 2020/2/9 上午9:39
+ * @Created by mlee1018 (https://blog.csdn.net/recall_tomorrow/article/details/70970293)
+ */
 public class KnightTour {
 
     private int X; // 棋盘的列数
